@@ -11,6 +11,8 @@ var params = {
   PROJECT: 'XXX',
   // Instance Name
   INSTANCE: 'XXX',
+  // BigQuery Project id
+  PROJECTBQ: 'XXX',
   // Dataset id
   DATASET: '',
   // Table id
@@ -73,7 +75,7 @@ function PManagement() {
     configuration: {
       load: {
         destinationTable: {
-          projectId: params.PROJECT,
+          projectId: params.PROJECTBQ,
           datasetId: params.DATASET,
           tableId: params.TABLE
         },
