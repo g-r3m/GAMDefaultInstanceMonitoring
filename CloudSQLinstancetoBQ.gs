@@ -1,5 +1,5 @@
 /*
- * Params used by the script in order to access Big Query and
+ * Params used by the script in order to access BigQuery and
  * Cloud SQL API
 */ 
 var params = {
@@ -19,9 +19,12 @@ var params = {
   TABLE: 'XXX'
 };
 
-
-
-
+/*
+ * This function will retrieve information from the Cloud SQL Admin API from the params.PROJECT, 
+ * params.INSTANCE names.
+ * Insert the result into BigQuery params.PROJECTBQ, params.DATASET, params.TABLE ids. 
+ * You need to previously create the BQ table with 2 fields "name", "date" fields
+*/ 
 function PManagement() {
   
   var service = getService();
@@ -30,8 +33,7 @@ function PManagement() {
     return;
   }
 
-  Logger.log('accesstoken: '+service.getAccessToken());
-  
+  Logger.log('accesstoken: '+service.getAccessToken()); 
   var url = 'https://www.googleapis.com/sql/v1beta4/projects/PROJECT/instances/INSTANCE/databases'
     .replace("PROJECT", params.PROJECT)
     .replace("INSTANCE", params.INSTANCE)
@@ -47,11 +49,9 @@ function PManagement() {
     "muteHttpExceptions": true
   };
 
-  var response = UrlFetchApp.fetch(url, options);
-  
+  var response = UrlFetchApp.fetch(url, options); 
   // Parse response to store the list of instances 
   // Add the date in the row
-  
   Logger.log(response.getContentText());
   data = [];
   var today = new Date();
@@ -67,7 +67,7 @@ function PManagement() {
     data.push(callPush);
   }
   
-  // Insert data into Big Query
+  // Insert data into BigQuery
   
   var data = data.join("\n");
   blobData = Utilities.newBlob(data, "application/octet-stream");
